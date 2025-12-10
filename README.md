@@ -77,8 +77,6 @@ This dataset was filtered from the full dataset (3,160 species, 116,792 samples)
 3. **Recording diversity:** ≥10 unique file names per species
 4. **Taxonomic diversity:** Round-robin selection across families to maximize family representation
 
-**Removed columns:** UMAP 1, UMAP 2, UMAP3D 1, UMAP3D 2, UMAP3D 3
-
 ## Result
 
 | Metric | Value |
