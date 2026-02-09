@@ -1,89 +1,35 @@
 # Phylogenetic Acoustic Analysis
 
-This repository combines:
+Acoustic trait data and phylogenetic trees for passerine species, built for comparative analyses of song evolution.
 
-1. Acoustic trait tables for passerine song recordings
-2. Phylogenetic trees aligned to those species sets
+## Data overview
 
-## Shared Deliverables
+Each row represents a single **song segment** extracted from a [Xeno-canto](https://xeno-canto.org/) recording. Every segment is described by:
 
-Only these files are intended for sharing.
+- **37 PCA components** — a weighted PCA projection of the segment's Modulation Power Spectrum (MPS), capturing the main axes of acoustic variation.
+- **8 GMM motif probabilities** — posterior probabilities from a Gaussian Mixture Model fitted in PCA space. Each component represents a recurring acoustic motif type.
 
-### Processed Data (`data/processed`)
+All species are labelled as **Oscine** (vocal learners) or **Non-Oscine**, enabling comparisons across this major taxonomic divide.
 
-1. `traits_data_pc_gmm_8components_proba_100species_with_oscine.csv`
-2. `traits_data_pc_gmm_8components_proba_min30_cap30_with_oscine.csv`
-3. `traits_data_pc_gmm_8components_proba_min30_uncapped_with_oscine.csv`
+## Three dataset variants
 
-### Phylogeny (`data/phylogeny`)
+### 100-species
 
-1. `consensus_tree_100species.tre`
-2. `consensus_tree_min30.tre`
+A hand-picked subset of 100 passerine species used for early analyses. No filtering or row constraints — all available segments for these species are included.
 
-## Dataset Definitions
+### min30 capped (30 rows per species)
 
-### `100species_with_oscine`
+A much broader set of ~1,300 species, each required to have at least **30 segments** from at least **10 distinct recordings**. To keep the dataset balanced, each species is downsampled to exactly **30 rows**, prioritising diversity across recordings.
 
-- Curated 100-species subset
-- 3,392 rows
-- Species are the same as the original 100-species table, plus `oscine_group`
+### min30 uncapped
 
-### `min30_cap30_with_oscine`
+Same eligible species as above, but **all segments are kept** — no upper limit per species. Useful when you need the full data rather than a balanced design.
 
-- Species eligibility:
-1. at least 30 total samples per species
-2. at least 10 unique recordings (`file_name`) per species
-- Row cap: exactly 30 rows per species
-- Downsampling strategy: maximize recording diversity by selecting distinct `file_name` first, then filling remaining rows round-robin by file
+## Phylogenetic trees
 
-### `min30_uncapped_with_oscine`
+Two pruned consensus trees (Newick format) are provided, one per species set:
 
-- Same eligible species as `min30_cap30_with_oscine`
-- No per-species upper cap on rows
-- Keeps all available rows for each eligible species
+- **100-species tree** — matches the 100-species dataset.
+- **min30 tree** — matches both min30 variants (they share the same species list).
 
-## Column Summary
-
-Core metadata:
-
-- `gen`, `family`, `species`, `sub_species`, `common_name`
-- `recordist`, `date`, `time`, `country`, `location`, `lat`, `lng`
-- `bird`, `file_name`, `weights`
-
-Acoustic features:
-
-- `PC1` ... `PC37` (weighted PCA components from MPS representations)
-- `gmm_cluster` and `gmm_prob_0` ... `gmm_prob_7` (8-component GMM motif model)
-
-Taxonomic split:
-
-- `oscine_group` in `{Oscines, Non-Oscines}` from `data/raw/unique_families_corrected.txt`
-
-## Phylogeny Notes
-
-- Trees are pruned from a larger consensus tree.
-- Species matching uses direct name matching plus synonym-based matching.
-- `consensus_tree_100species.tre` corresponds to the 100-species dataset.
-- `consensus_tree_min30.tre` corresponds to the min30 species set (used by both min30 tables).
-- Mapping CSVs are generated as internal build artifacts and are not part of shared deliverables.
-
-## Rebuild
-
-From repository root:
-
-```bash
-python scripts/create_oscine_versions.py
-```
-
-```bash
-Rscript scripts/create_pruned_tree.R
-```
-
-Build min30 tree explicitly:
-
-```bash
-TRAIT_FILE=./data/processed/traits_data_pc_gmm_8components_proba_min30_uncapped_with_oscine.csv \
-OUTPUT_TREE_FILE=./data/phylogeny/consensus_tree_min30.tre \
-OUTPUT_MAPPING_FILE=./data/phylogeny/species_tree_mapping_min30.csv \
-Rscript scripts/create_pruned_tree.R
-```
+The trees were pruned from a larger Bayesian consensus tree to keep only the species present in each dataset. They are fully bifurcating and ready for use with phylogenetic comparative methods.

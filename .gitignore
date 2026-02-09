@@ -12,3 +12,5 @@ data/processed/*
 data/phylogeny/*
 !data/phylogeny/consensus_tree_100species.tre
 !data/phylogeny/consensus_tree_min30.tre
+
+scripts/
