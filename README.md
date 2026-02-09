@@ -20,12 +20,12 @@ All species are labelled as **Oscine** (vocal learners) or **Non-Oscine**, enabl
 
 ### Species eligibility
 
-Both datasets share the same species list. A species is included only if it has:
+Both datasets share the same species list. We keep **all species** from the full Xeno-canto corpus that meet two quality thresholds:
 
-1. At least **30 total segments** in the full corpus, and
+1. At least **30 total segments**, and
 2. At least **10 distinct recordings** (unique audio files).
 
-This ensures that every species in the dataset is represented by a reasonable volume of data from multiple independent sources.
+The 1,303 species in the dataset are all the species that pass these criteria. This ensures that every species is represented by a reasonable volume of data from multiple independent sources.
 
 ### min30 capped: how segments are selected
 
