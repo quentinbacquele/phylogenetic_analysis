@@ -2,14 +2,15 @@
 
 Acoustic trait data and phylogenetic trees for passerine species, built for comparative analyses of song evolution.
 
-## Data overview
+## Files
 
-Each row represents a single **song segment** extracted from a [Xeno-canto](https://xeno-canto.org/) recording. Every segment is described by:
+This repository provides three files:
 
-- **37 PCA components**: a weighted PCA projection of the segment's Modulation Power Spectrum (MPS), capturing the main axes of acoustic variation.
-- **8 GMM motif probabilities**: posterior probabilities from a Gaussian Mixture Model fitted in PCA space. Each component represents a recurring acoustic motif type.
+- **`traits_data_pc_gmm_8components_proba_min30_cap30_with_oscine.csv`**: acoustic trait data for 1,303 passerine species, balanced to exactly 30 segments per species (43,110 rows total).
+- **`traits_data_pc_gmm_8components_proba_min30_uncapped_with_oscine.csv`**: same 1,303 species with all available segments retained (92,479 rows total).
+- **`consensus_tree_min30.tre`**: pruned phylogenetic tree in Newick format, matching the 1,303 species in both trait tables.
 
-All species are labelled as **Oscine** (vocal learners) or **Non-Oscine**, enabling comparisons across this major taxonomic divide.
+Each row in the trait tables represents a single song segment from a [Xeno-canto](https://xeno-canto.org/) recording. Acoustic features and motif classifications were produced following the methods described in Bacquele et al., *Global Biogeography of Birdsong*.
 
 ## Dataset variants
 
@@ -84,7 +85,15 @@ Same eligible species as the capped variant, but all segments are kept with no u
 | 6 | Fast Modulated Whistles |
 | 7 | Harmonic Stacks |
 
-## Acoustic feature extraction and clustering
+## Phylogenetic tree
+
+A single pruned consensus tree (Newick format) is provided, matching the 1,303 species in both datasets.
+
+The tree was derived from the BirdTree consensus tree (Jetz et al. 2012) by matching species names directly or via synonyms, then pruning to retain only matched species. It is fully bifurcating and ready for use with phylogenetic comparative methods.
+
+## Acoustic feature extraction and clustering (Bacquele et al.)
+
+The acoustic features in this dataset were produced following the pipeline described in Bacquele et al., *Global Biogeography of Birdsong*:
 
 1. **Modulation Power Spectrum (MPS):** Each song bout was transformed into an MPS, a 2D representation that quantifies how sound energy is distributed across temporal modulations (e.g., trill rates) and spectral modulations (e.g., pitch changes, tonality).
 
@@ -93,9 +102,3 @@ Same eligible species as the capped variant, but all segments are kept with no u
 3. **Gaussian Mixture Model (GMM):** An unsupervised GMM with **8 components** was fitted on the 37-dimensional PC space. The optimal number of clusters (8) was determined using AIC and BIC criteria.
 
 4. **Soft Clustering:** The GMM assigns each song bout a posterior probability of belonging to each of the 8 clusters (`gmm_prob_0` to `gmm_prob_7`). The `gmm_cluster` column indicates the most likely cluster (highest probability).
-
-## Phylogenetic tree
-
-A single pruned consensus tree (Newick format) is provided, matching the 1,303 species in both datasets.
-
-The tree was derived from the BirdTree consensus tree (Jetz et al. 2012) by matching species names directly or via synonyms, then pruning to retain only matched species. It is fully bifurcating and ready for use with phylogenetic comparative methods.
