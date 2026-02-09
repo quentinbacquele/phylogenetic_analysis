@@ -15,17 +15,12 @@ All species are labelled as **Oscine** (vocal learners) or **Non-Oscine**, enabl
 
 | Dataset | Species | Rows per species | Total rows | Description |
 |---|---|---|---|---|
-| **100-species** | 100 | All available | 3,392 | Hand-picked species subset, no filtering |
-| **min30 capped** | ~1,300 | Exactly 30 | ~43,000 | Balanced design, downsampled for diversity |
-| **min30 uncapped** | ~1,300 | All available | ~92,000 | Same species, full data retained |
+| **min30 capped** | 1,303 | Exactly 30 | 43,110 | Balanced design, downsampled for diversity |
+| **min30 uncapped** | 1,303 | All available | 92,479 | Same species, full data retained |
 
-### 100-species
+### Species eligibility
 
-A curated subset of 100 passerine species used for early analyses. All available segments for these species are included, with no filtering or row constraints.
-
-### min30: species eligibility
-
-Both min30 datasets share the same species list. A species is included only if it has:
+Both datasets share the same species list. A species is included only if it has:
 
 1. At least **30 total segments** in the full corpus, and
 2. At least **10 distinct recordings** (unique audio files).
@@ -45,11 +40,8 @@ This avoids overrepresenting a single recording and ensures each species' 30 row
 
 Same eligible species as the capped variant, but all segments are kept with no upper limit. Useful when you need the full data rather than a balanced design.
 
-## Phylogenetic trees
+## Phylogenetic tree
 
-Two pruned consensus trees (Newick format) are provided, one per species set:
+A single pruned consensus tree (Newick format) is provided, matching the 1,303 species in both datasets.
 
-- **100-species tree**: matches the 100-species dataset.
-- **min30 tree**: matches both min30 variants (they share the same species list).
-
-The trees were pruned from a larger Bayesian consensus tree to keep only the species present in each dataset. They are fully bifurcating and ready for use with phylogenetic comparative methods.
+The tree was pruned from a larger Bayesian consensus tree to keep only the species present in the data. It is fully bifurcating and ready for use with phylogenetic comparative methods.
